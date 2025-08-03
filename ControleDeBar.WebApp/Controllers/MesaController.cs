@@ -86,7 +86,7 @@ public class MesaController : Controller
     {
         var mesa = repositorioMesa.SelecionarRegistroPorId(id);
 
-        if (mesa == null)
+        if (mesa == null) 
         {
             return RedirectToAction(nameof(Index));
         }
