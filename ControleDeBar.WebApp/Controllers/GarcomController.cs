@@ -22,7 +22,23 @@ public class GarcomController : Controller
         VisualizarGarcomViewModel visualizarVm = new VisualizarGarcomViewModel(garcons);
         return View(visualizarVm);
     }
-    
+    [HttpGet]
+    public IActionResult Cadastrar()
+    {
+        CadastrarGarcomViewModel cadastrarVm = new CadastrarGarcomViewModel();
+        return View(cadastrarVm);
+    }
+    [HttpPost]
+    public IActionResult Cadastrar(CadastrarGarcomViewModel cadastrarVm)
+    {
+        if(!ModelState.IsValid)
+            return View(cadastrarVm);
+        var garcom = new Garcom(cadastrarVm.Nome, cadastrarVm.Cpf);
+
+        repositorioGarcon.CadastrarRegistro(garcom);
+        return RedirectToAction(nameof(Index));
+    }
+
 
 
 
