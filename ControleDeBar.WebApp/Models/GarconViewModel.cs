@@ -47,6 +47,42 @@ public class DetalhesGarcomViewModel
         Cpf = cpf;
     }
 }
+public class EditarGarcomViewModel
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "O campo \"Nome\" é obrigatório.")]
+    [MinLength(2, ErrorMessage = "O Campo \"Nome\" de conter mais de dois caracteres.")]
+    public string Nome { get; set; }
+
+    [Required(ErrorMessage = "O campo \"CPF\" é obrigatório.")]
+    [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O campo \"CPF\" deve seguir o formato XXX.XXX.XXX-XX.")]
+    public string Cpf { get; set; }
+    
+    
+    public EditarGarcomViewModel()
+    {
+    }
+    public EditarGarcomViewModel(int id, string nome, string cpf)
+    {
+        Id = id;
+        Nome = nome;
+        Cpf = cpf;
+    }
+}
+public class ExcluirGarcomViewModel
+{
+    public int Id { get; set; }
+    public string Nome { get; set; }
+
+    public ExcluirGarcomViewModel()
+    {}
+    public ExcluirGarcomViewModel(int id, string nome)
+    {
+        Id = id;
+        Nome = nome;
+    }
+}
 
 
 
