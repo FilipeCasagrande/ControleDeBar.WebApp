@@ -27,7 +27,7 @@ public class ContextoDados
 
     public void Salvar()
     {
-        // C:\temp\dados-controle-bar.json
+         //C:\temp\dados-controle-bar.json
         string caminhoCompleto = Path.Combine(pastaArmazenamento, arquivoArmazenamento);
 
         JsonSerializerOptions jsonOptions = new JsonSerializerOptions();

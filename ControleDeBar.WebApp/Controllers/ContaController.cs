@@ -1,6 +1,7 @@
 ﻿using ControleDeBar.Dominio.ModuloConta;
 using ControleDeBar.Dominio.ModuloGarcom;
 using ControleDeBar.Dominio.ModuloMesa;
+using ControleDeBar.Dominio.ModuloProduto;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloConta;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcon;
@@ -21,7 +22,7 @@ public class ContaController : Controller
 
     public ContaController()
     {
-        ContextoDados contexto = new ContextoDados(true);
+        contexto = new ContextoDados(true);
         repositorioConta = new RepositorioContaEmArquivo(contexto);
         repositorioMesa = new RepositorioMesaEmArquivo(contexto);
         repositorioGarcom = new RepositorioGarcomEmArquivo(contexto);
@@ -62,6 +63,59 @@ public class ContaController : Controller
             );
         repositorioConta.CadastrarRegistro(contas);
         return RedirectToAction(nameof(Index));
+    }
+    [HttpGet]
+    public IActionResult GerenciarPedidos(int id)
+    {
+        Conta contaSelecionada = repositorioConta.SelecionarRegistroPorId(id);
+
+        List<Produto> produtos = repositorioProduto.SelecionarRegistros();
+
+        GerenciarPedidosViewModel gerenciarPedidosVm = new GerenciarPedidosViewModel(
+            contaSelecionada,
+            produtos
+        );
+
+        return View(gerenciarPedidosVm);
+    }
+
+    [HttpPost]
+    public IActionResult AdicionarPedido(int id, AdicionarPedidoViewModel adicionarPedidoVm)
+    {
+        Conta contaSelecionada = repositorioConta.SelecionarRegistroPorId(id);
+
+        Produto produtoSelecionado = repositorioProduto.SelecionarRegistroPorId(adicionarPedidoVm.IdProduto);
+
+        Pedido pedido = contaSelecionada.RegistrarPedido(produtoSelecionado, adicionarPedidoVm.QuantidadeSolicitada);
+
+        contexto.Salvar();
+
+        List<Produto> produtos = repositorioProduto.SelecionarRegistros();
+
+        GerenciarPedidosViewModel gerenciarPedidosVm = new GerenciarPedidosViewModel(
+            contaSelecionada,
+            produtos
+        );
+
+        return View(nameof(GerenciarPedidos), gerenciarPedidosVm);
+    }
+    [HttpPost]
+    public IActionResult RemoverPedido(int id, int idPedido)
+    {
+        Conta contaSelecionada = repositorioConta.SelecionarRegistroPorId(id);
+
+        contaSelecionada.RemoverPedido(idPedido);
+
+        contexto.Salvar();
+
+        List<Produto> produtos = repositorioProduto.SelecionarRegistros();
+
+        GerenciarPedidosViewModel gerenciarPedidosVm = new GerenciarPedidosViewModel(
+            contaSelecionada,
+            produtos
+        );
+
+        return View(nameof(GerenciarPedidos), gerenciarPedidosVm);
     }
 }
 
