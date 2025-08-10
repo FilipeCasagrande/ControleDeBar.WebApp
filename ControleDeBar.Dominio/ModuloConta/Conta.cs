@@ -13,14 +13,16 @@ public class Conta : EntidadeBase<Conta>
     public DateTime Abertura { get; set; }
     public DateTime Fechamento { get; set; }
     public bool EstaAberta { get; set; }
-    public Pedido[] Pedidos { get; set; }
-
+    public List<Pedido> Pedidos { get; set; }
+    public Conta()
+    {
+    }
     public Conta(string titular, Mesa mesa, Garcom garcom)
     {
         Titular = titular;
         Mesa = mesa;
         Garcom = garcom;
-        Pedidos = new Pedido[100];
+        Pedidos = new List<Pedido>();
 
         Abrir();
     }
@@ -67,11 +69,8 @@ public class Conta : EntidadeBase<Conta>
     {
         decimal valorTotal = 0;
 
-        for (int i = 0; i < Pedidos.Length; i++)
+        for (int i = 0; i < Pedidos.Count; i++)
         {
-            if (Pedidos[i] == null)
-                continue;
-
             valorTotal += Pedidos[i].CalcularTotalParcial();
         }
 
@@ -83,7 +82,7 @@ public class Conta : EntidadeBase<Conta>
     {
         Pedido novoPedido = new Pedido(produto, quantidadeEscolhida);
 
-        Pedidos[EncontrarIndicePedidosVazio()] = novoPedido;
+        Pedidos.Add(novoPedido);
 
         return novoPedido;
     }
@@ -92,9 +91,9 @@ public class Conta : EntidadeBase<Conta>
     {
         int indiceParaRemover = -1;
 
-        for (int i = 0; i < Pedidos.Length; i++)
+        for (int i = 0; i < Pedidos.Count; i++)
         {
-            if (Pedidos[i] == null) continue;
+
 
             if (Pedidos[i].Id == idPedido)
             {
@@ -103,17 +102,7 @@ public class Conta : EntidadeBase<Conta>
             }
         }
 
-        Pedidos[indiceParaRemover] = null;
+        Pedidos.RemoveAt(indiceParaRemover);
     }
 
-    private int EncontrarIndicePedidosVazio()
-    {
-        for (int i = 0; i < Pedidos.Length; i++)
-        {
-            if (Pedidos[i] == null)
-                return i;
-        }
-
-        return -1;
-    }
 }

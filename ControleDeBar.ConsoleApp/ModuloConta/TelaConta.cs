@@ -409,7 +409,7 @@ public class TelaConta : ITela
             "Id", "Produto", "Quantidade", "Valor Parcial"
         );
 
-        Pedido[] pedidos = conta.Pedidos;
+        Pedido[] pedidos = conta.Pedidos.ToArray();
 
         for (int i = 0; i < pedidos.Length; i++)
         {
