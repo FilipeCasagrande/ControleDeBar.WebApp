@@ -30,12 +30,22 @@ public class ContaController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string? status)
     {
-        List<Conta> contas = repositorioConta.SelecionarRegistros();
-        VisualizarContaViewModel visualizarVm = new VisualizarContaViewModel(contas);
-        return View(visualizarVm);
+        List<Conta> contas;
+
+        switch (status)
+        {
+            case "abertas": contas = repositorioConta.SelecionarContasEmAberto(); break;
+            case "fechadas": contas = repositorioConta.SelecionarContasFechadas(); break;
+            default: contas = repositorioConta.SelecionarRegistros(); break;
+        }
+
+        VisualizarContaViewModel visualizarContasVm = new VisualizarContaViewModel(contas);
+
+        return View(visualizarContasVm);
     }
+    
 
     [HttpGet]
     public IActionResult Abrir()
@@ -44,6 +54,33 @@ public class ContaController : Controller
         List<Garcom> garcons = repositorioGarcom.SelecionarRegistros();
         AbrirContaViewModel abrirVm = new AbrirContaViewModel(mesas, garcons);
         return View(abrirVm);
+    }
+    public IActionResult Fechar(int id)
+    {
+        Conta contaSelecionada = repositorioConta.SelecionarRegistroPorId(id);
+
+        FecharContaViewModel fecharContaVm = new FecharContaViewModel(
+            contaSelecionada.Id,
+            contaSelecionada.Titular,
+            contaSelecionada.Mesa.Numero,
+            contaSelecionada.Garcom.Nome,
+            contaSelecionada.CalcularValorTotal(),
+            contaSelecionada.Pedidos
+        );
+
+        return View(fecharContaVm);
+    }
+
+    [HttpPost]
+    public IActionResult FecharConfirmado(int id)
+    {
+        Conta contaSelecionada = repositorioConta.SelecionarRegistroPorId(id);
+
+        contaSelecionada.Fechar();
+
+        contexto.Salvar();
+
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]

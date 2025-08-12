@@ -4,10 +4,28 @@
 
 @model VisualizarContaViewModel;
 
-<a class="btn btn-primary" href="Conta/Abrir">
-    <i class="bi bi-plus"></i>
-    Abir novo/a
-</a>
+<div class="d-flex gap-2 align-items-center">
+    <a class="btn btn-primary" asp-action="Abrir">
+        <i class="bi bi-plus"></i>
+        Abrir nova
+    </a>
+
+    <a class="btn btn-outline-primary" asp-action="Index">
+        @* <i class="bi bi-plus"></i> *@
+        Todas as contas
+    </a>
+
+    <a class="btn btn-outline-primary" asp-action="Index" asp-route-status="abertas">
+        @* <i class="bi bi-plus"></i> *@
+        Contas abertas
+    </a>
+
+    <a class="btn btn-outline-primary" asp-action="Index" asp-route-status="fechadas">
+        @* <i class="bi bi-plus"></i> *@
+        Contas fechadas
+    </a>
+</div>
+
 
 <div class="row mt-4">
     @foreach (DetalhesContaViewModel c in Model.Registros)
