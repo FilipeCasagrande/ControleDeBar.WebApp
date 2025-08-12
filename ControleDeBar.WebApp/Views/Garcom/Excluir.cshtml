@@ -5,13 +5,13 @@
 @model ExcluirGarcomViewModel
 
 <div class="row justify-content-center">
-    <form class="col-6" asp-action="Excluir" method="post">
+    <form class="col-lg-8 col-xl-6" asp-action="Excluir" method="post">
 
         <p class="d-flex justify content-center"><strong>Deseja excluir a Mesa Nº @Model.Nome ?</strong></p>
 
         <div class="d-flex gap-2 justify-content-center">
             <a asp-action="Index" class="btn btn-outline-danger px-5">Voltar</a>
-            <button class="btn btn-outline-danger px-5">Excluir</button>
+            <button class="btn btn-outline-danger px-5">Confirmar</button>
         </div>
     </form>
 </div>
