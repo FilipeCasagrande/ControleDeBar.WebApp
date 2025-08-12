@@ -11,17 +11,14 @@
     </a>
 
     <a class="btn btn-outline-primary" asp-action="Index">
-        @* <i class="bi bi-plus"></i> *@
         Todas as contas
     </a>
 
     <a class="btn btn-outline-primary" asp-action="Index" asp-route-status="abertas">
-        @* <i class="bi bi-plus"></i> *@
         Contas abertas
     </a>
 
     <a class="btn btn-outline-primary" asp-action="Index" asp-route-status="fechadas">
-        @* <i class="bi bi-plus"></i> *@
         Contas fechadas
     </a>
 </div>
@@ -31,7 +28,7 @@
     @foreach (DetalhesContaViewModel c in Model.Registros)
     {
         <div class="col-3">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title"># @c.Titular</h5>
                     <p class="card-text mb-0"><strong>Mesa R$</strong> #@c.Mesa</p>
@@ -39,14 +36,20 @@
                    
                     @if (c.EstaAberta)
                     {
-                        <span class="d-flex gap-1 justify-content-end mt-4">
-                            <a title="Gerenciar pedidos" asp-action="GerenciarPedidos" asp-route-id="@c.Id" style="height: 35px; width: 35px;" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center">
+                        <span class="d-flex gap-1 justify-content-end ">
+                            <a title="Gerenciar pedidos" asp-action="GerenciarPedidos" asp-route-id="@c.Id" style="height: 33px; width: 35px;" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center">
                                 <i class="bi bi-cart"></i>
                             </a>
-                            <a title="Fechar conta" asp-action="Fechar" asp-route-id="@c.Id" style="height: 35px; width: 35px;" class="btn btn-success rounded-circle d-flex justify-content-center align-items-center">
+                            <a title="Fechar conta" asp-action="Fechar" asp-route-id="@c.Id" style="height: 35px; width: 33px;" class="btn btn-success rounded-circle d-flex justify-content-center align-items-center">
                                 <i class="bi bi-cash-coin"></i>
                             </a>
                         </span>
+                    }
+                    else
+                    {
+                        <a title="Detalhes" asp-action="Detalhes" asp-route-id="@c.Id" style="height: 33px; width: 35px;" class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center ms-auto">
+                            <i class="bi bi-search"></i>
+                        </a>
                     }
                 </div>
             </div>
